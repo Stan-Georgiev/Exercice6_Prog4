@@ -3,6 +3,7 @@ module cstjean.prog4.exercice6 {
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
+    requires java.logging;
 
     opens cstjean.prog4.exercice6 to javafx.fxml;
     exports cstjean.prog4.exercice6;
