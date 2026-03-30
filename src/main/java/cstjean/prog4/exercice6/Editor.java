@@ -11,7 +11,6 @@ public class Editor {
 
     public EditorMemento createMemento() {
         return new EditorMemento(state);
-
     }
 
     public void setMemento(EditorMemento editorMemento) {
