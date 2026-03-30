@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditorCaretaker {
-    private final List<EditorMemento> history = new ArrayList<>();
+    private final List<EditorMemento> history = new ArrayList<>(19);
 
     public void save(Editor editor) {
+        if (history.size() == 19) {
+            history.removeFirst();
+            history.add(editor.createUndo());
+        }
         history.add(editor.createUndo());
     }
     public void restore(Editor editor, int index) {
@@ -15,5 +19,9 @@ public class EditorCaretaker {
 
     public void restore(Editor editor) {
         this.restore(editor, history.size() - 1);
+    }
+
+    public List<EditorMemento> getHistory() {
+        return history;
     }
 }

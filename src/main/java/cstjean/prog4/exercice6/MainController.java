@@ -10,6 +10,9 @@ import javafx.scene.control.TextArea;
  * @author TODO
  */
 public class MainController {
+    EditorCaretaker caretaker = new EditorCaretaker();
+    Editor editor = new Editor();
+
 
     /**
      * ...
@@ -41,7 +44,8 @@ public class MainController {
      */
     @FXML
     protected void onUndo() {
-        // ...
+        caretaker.getHistory();
+        caretaker.save(editor);
     }
 
     /**
@@ -57,6 +61,11 @@ public class MainController {
      */
     @FXML
     protected void onKeyTyped() {
-        // ...
+        caretaker.save(editor);
+        if (caretaker.getHistory().size() > 0) {
+            btnUndo.setDisable(false);
+        } else  {
+            btnUndo.setDisable(true);
+        }
     }
 }

@@ -3,13 +3,9 @@ package cstjean.prog4.exercice6;
 public class Editor {
     private String state = "";
 
+
     public String getState() {
         return state;
-
-    }
-
-    public void setState(String state) {
-        this.state = state;
 
     }
 
@@ -24,12 +20,10 @@ public class Editor {
     }
 
     public EditorMemento createUndo() {
-        return new EditorMemento("");
+        return new EditorMemento(state);
     }
 
-    public void restore(EditorMemento bookMemento) {
-        //isbn = EditorMemento.getIsbn();
-        //title = EditorMemento.getTitle();
-        //author = EditorMemento.getAuthor();
+    public void restore(EditorMemento editorMemento) {
+        state = editorMemento.getState();
     }
 }
