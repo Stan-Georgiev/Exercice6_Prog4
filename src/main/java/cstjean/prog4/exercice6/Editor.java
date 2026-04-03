@@ -9,6 +9,10 @@ public class Editor {
 
     }
 
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public EditorMemento createMemento() {
         return new EditorMemento(state);
     }

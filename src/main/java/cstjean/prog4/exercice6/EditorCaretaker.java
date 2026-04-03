@@ -5,13 +5,38 @@ import java.util.List;
 
 public class EditorCaretaker {
     private final List<EditorMemento> history = new ArrayList<>(19);
+    private int currentIndex = -1;
 
     public void save(Editor editor) {
-        if (history.size() == 19) {
-            history.removeFirst();
-            history.add(editor.createUndo());
+        while (history.size() > currentIndex + 1) {
+            history.remove(history.size() - 1);
         }
-        history.add(editor.createUndo());
+
+        if (history.size() == 20) {
+            history.remove(0);
+            currentIndex--;
+        }
+
+        history.add(editor.createMemento());
+        currentIndex++;
+    }
+
+    public void undo(Editor editor) {
+        if (currentIndex > 0) {
+            currentIndex--;
+            editor.restore(history.get(currentIndex));
+        }
+    }
+
+    public void redo(Editor editor) {
+        if (currentIndex < history.size() - 1) {
+            currentIndex++;
+            editor.restore(history.get(currentIndex));
+        }
+    }
+
+    public int getCurrentIndex() {
+        return currentIndex;
     }
     public void restore(Editor editor, int index) {
         editor.restore(history.get(index));

@@ -44,8 +44,11 @@ public class MainController {
      */
     @FXML
     protected void onUndo() {
-        caretaker.getHistory();
-        caretaker.save(editor);
+        caretaker.undo(editor);
+        textArea.setText(editor.getState());
+
+        btnUndo.setDisable(caretaker.getCurrentIndex() <= 0);
+        btnRedo.setDisable(false);
     }
 
     /**
@@ -53,7 +56,11 @@ public class MainController {
      */
     @FXML
     protected void onRedo() {
-        // ...
+        caretaker.redo(editor);
+        textArea.setText(editor.getState());
+
+        btnRedo.setDisable(caretaker.getCurrentIndex() >= caretaker.getHistory().size() - 1);
+        btnUndo.setDisable(false);
     }
 
     /**
@@ -61,11 +68,16 @@ public class MainController {
      */
     @FXML
     protected void onKeyTyped() {
-        caretaker.save(editor);
-        if (caretaker.getHistory().size() > 0) {
-            btnUndo.setDisable(false);
-        } else  {
-            btnUndo.setDisable(true);
+        String text = textArea.getText();
+
+        if (text.endsWith(" ") || text.endsWith("\n")) {
+            editor.setState(text);
+            caretaker.save(editor);
+
+            btnUndo.setDisable(caretaker.getCurrentIndex() <= 0);
+            btnRedo.setDisable(true);
+
+            System.out.println("Saved: " + text);
         }
     }
 }
