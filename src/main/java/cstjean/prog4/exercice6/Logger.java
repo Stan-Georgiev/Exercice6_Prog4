@@ -12,15 +12,15 @@ public class Logger {
     public Logger() {
         loggers = new ArrayList<LoggerBase>();
     }
+
     public void log(String message, int level) {
-        if (loggers.size() == 0) {
+        if (loggers.isEmpty()) {
             System.out.println("Aucuns loggers trouvés");
             return;
         }
-        String binaryLevel = Integer.toBinaryString(level);
-        for (int i = 0; i < loggers.size(); i++) {
-            LoggerBase logger = loggers.get(i);
-            if (logger.getBinaryMask().contains(binaryLevel)) {
+
+        for (LoggerBase logger : loggers) {
+            if ((logger.getMask() & level) != 0) {
                 logger.log(message);
             }
         }

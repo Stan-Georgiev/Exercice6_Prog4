@@ -14,4 +14,9 @@ public class ConsoleLogger implements LoggerBase {
     public String getBinaryMask() {
         return Integer.toBinaryString(mask);
     }
+
+    @Override
+    public int getMask() {
+        return this.mask;
+    }
 }

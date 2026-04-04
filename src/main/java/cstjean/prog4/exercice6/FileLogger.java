@@ -9,22 +9,27 @@ public class FileLogger implements LoggerBase {
     public FileLogger(int mask) {
         this.mask = mask;
         try {
-            writer = new FileWriter("textfile.txt");
+            writer = new FileWriter("textfile.txt", true);
         } catch (IOException e) {
-            System.out.println("Erreur avec le fichier");
+            throw new RuntimeException("Erreur avec le fichier", e);
         }
     }
     @Override
     public void log(String message) {
         try {
-            writer.write(message);
-            writer.close();
+            writer.write(message + "\n");
+            writer.flush();
         } catch (IOException ex) {
             System.out.println("Erreur dans l'écriture du fichier");
         }
     }
+
     @Override
     public String getBinaryMask() {
         return Integer.toBinaryString(mask);
+    }
+
+    public int getMask() {
+        return mask;
     }
 }
