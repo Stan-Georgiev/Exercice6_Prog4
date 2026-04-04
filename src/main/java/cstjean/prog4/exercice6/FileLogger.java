@@ -6,9 +6,13 @@ import java.io.IOException;
 public class FileLogger implements LoggerBase {
     public int mask;
     FileWriter writer;
-    public FileLogger(int mask) throws IOException {
+    public FileLogger(int mask) {
         this.mask = mask;
-        writer = new FileWriter("textfile.txt");
+        try {
+            writer = new FileWriter("textfile.txt");
+        } catch (IOException e) {
+            System.out.println("Erreur avec le fichier");
+        }
     }
     @Override
     public void log(String message) {

@@ -12,7 +12,9 @@ import javafx.scene.control.TextArea;
 public class MainController {
     EditorCaretaker caretaker = new EditorCaretaker();
     Editor editor = new Editor();
-
+    Logger logger = new Logger();
+    ConsoleLogger cLogger = new ConsoleLogger(Logger.INFO | Logger.WARNING | Logger.ERROR);
+    FileLogger fLogger = new FileLogger(Logger.INFO | Logger.WARNING | Logger.ERROR);
 
     /**
      * ...
@@ -37,6 +39,8 @@ public class MainController {
      */
     public MainController() {
         // ...
+        logger.addLogger(cLogger);
+        logger.addLogger(fLogger);
     }
 
     /**
@@ -73,11 +77,9 @@ public class MainController {
         if (text.endsWith(" ") || text.endsWith("\n")) {
             editor.setState(text);
             caretaker.save(editor);
-
             btnUndo.setDisable(caretaker.getCurrentIndex() <= 0);
             btnRedo.setDisable(true);
-
-            System.out.println("Saved: " + text);
+            logger.log(text, Logger.INFO | Logger.WARNING | Logger.ERROR);
         }
     }
 }
